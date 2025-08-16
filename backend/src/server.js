@@ -5,8 +5,10 @@ import { connectDB } from './lib/db.js'
 dotenv.config()
 
 const app = express()
-const PORT=process.env.PORT
+const PORT = process.env.PORT
 
+
+app.use(express.json()); // to fetch the data from the request body
 app.use('/api/auth', authRoutes)
 
 // app.get('/api/auth/signup',(req,res)=>{
@@ -23,5 +25,5 @@ app.listen(PORT, () => {
     console.log(`App is listening on port ${PORT}`)
     connectDB()
 
-    }
+}
 )
