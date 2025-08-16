@@ -115,3 +115,8 @@ export const logout = (req, res) => {
     res.status(200).json({ success: true, message: "Logged Out successfully" })
 
 }
+
+export const onboard= async(req, res)=>{
+    console.log(req.user)
+
+}

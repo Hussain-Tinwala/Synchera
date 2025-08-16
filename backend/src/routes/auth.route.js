@@ -1,5 +1,6 @@
 import express from 'express'
 import { login, logout, signup } from '../controllers/auth.controller.js'
+import { protectRoute } from '../middleware/auth.middleware.js'
 
 const router=express.Router()
 
@@ -12,5 +13,7 @@ router.post('/logout',logout)
 // router.get('/logout',(req,res)=>{
 //     res.send("Signup Route")
 // })
+
+router.post("/onboarding", protectRoute, onboard)
 
 export default router
