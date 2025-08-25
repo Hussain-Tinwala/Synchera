@@ -8,7 +8,7 @@ import OnboardingPage from './pages/OnboardingPage'
 import SignupPage from './pages/SignupPage'
 import LoginPage from './pages/LoginPage'
 
-import toast, {Toaster} from "react-hot-toast"
+import toast, { Toaster } from "react-hot-toast"
 
 import { useQuery } from '@tanstack/react-query'
 import axios from "axios"
@@ -48,45 +48,58 @@ const App = () => {
   //       // The existing code is a common pattern, and the error is expected behavior. The error handling is what's important.
   //   });
 
-    const {isLoading, authUser}=useAuthUser()
+  const { isLoading, authUser } = useAuthUser()
 
-    const isAuthenticated=Boolean(authUser);
-    const isOnboarded=authUser?.isonboarded
-    
-    // ... rest of your component
-    
-    // Return a loading spinner while the auth check is in progress
-    if (isLoading) {
-      return <PageLoader />
-    }
+  const isAuthenticated = Boolean(authUser);
+  const isOnboarded = authUser?.isonboarded
+
+  // ... rest of your component
+
+  // Return a loading spinner while the auth check is in progress
+  if (isLoading) {
+    return <PageLoader />
+  }
 
   return (
     <>
-    <div className='h-screen' data-theme="night">
-      {/* <button onClick={()=>toast.error("Hello!")}>Create Toast</button> */}
-      
-      <Routes>
-        <Route path="/" element={
-          isAuthenticated && isOnboarded?(
-            <HomePage />
-          )
-           : (
-             <Navigate to={!isAuthenticated?"/login": "/onboarding"}/>
+      <div className='h-screen' data-theme="night">
+        {/* <button onClick={()=>toast.error("Hello!")}>Create Toast</button> */}
 
-           )
+        <Routes>
+          <Route path="/" element={
+            isAuthenticated && isOnboarded ? (
+              <HomePage />
+            )
+              : (
+                <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+
+              )
           }
           />
-        <Route path="/signup" element={!isAuthenticated?<SignupPage />: <Navigate to="/" />} />
-        <Route path="/login" element={!isAuthenticated? <LoginPage/>: <Navigate to="/" />} />
-        <Route path="/notifications" element={isAuthenticated? <NotificationsPage/>: <Navigate to="/login" />} />
-        <Route path="/call" element={isAuthenticated?<CallPage />: <Navigate to="/login"/>} />
-        <Route path="/chat" element={isAuthenticated?<ChatPage />: <Navigate to="/login"/>} />
-        <Route path="/onboarding" element={isAuthenticated?<OnboardingPage />: <Navigate to="/login"/>} />
+          <Route path="/signup" element={!isAuthenticated ? <SignupPage /> : <Navigate to="/" />} />
+          <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" />} />
+          <Route path="/notifications" element={isAuthenticated ? <NotificationsPage /> : <Navigate to="/login" />} />
+          <Route path="/call" element={isAuthenticated ? <CallPage /> : <Navigate to="/login" />} />
+          <Route path="/chat" element={isAuthenticated ? <ChatPage /> : <Navigate to="/login" />} />
+          <Route
+            path="/onboarding"
+            element={
+              isAuthenticated ? (
+                !isOnboarded ? (
+                  <OnboardingPage />
+                ) : (
+                  <Navigate to="/" />
+                )
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
 
-      </Routes>
+        </Routes>
 
-      <Toaster />
-    </div>
+        <Toaster />
+      </div>
     </>
 
   )
